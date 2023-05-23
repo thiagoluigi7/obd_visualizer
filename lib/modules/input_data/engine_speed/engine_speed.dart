@@ -1,13 +1,16 @@
 import '../input_data.dart';
 
-class EngineSpeedData extends InputData {
+class EngineSpeedData implements InputData {
   @override
-  void getQuery() {
-    // TODO: implement getQuery
-  }
-
+  String name = 'Engine Speed';
   @override
-  void sendQuery() {
-    // TODO: implement sendQuery
-  }
+  String description = 'Get the current engine speed in RPM';
+  @override
+  String unit = 'RPM';
+  @override
+  Function formula = (int a, int b) => ((256 * a) + b) / 4;
+  @override
+  String pid = '01 0C';
+  @override
+  int length = 2;
 }

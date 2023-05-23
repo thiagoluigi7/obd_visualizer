@@ -32,14 +32,13 @@ dependencies:
   flutter:
     sdk: flutter
 
-  obd2_plugin:
-    path: ./obd2_plugin/
-
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^1.0.2
-  flutter_blue: ^0.8.0
+  # cupertino_icons: ^1.0.2
+  # flutter_blue: ^0.8.0
+  flutter_bluetooth_serial: ^0.4.0
   permission_handler: ^10.2.0
+  flutter_svg : ^0.17.4
 
 dev_dependencies:
   flutter_test:

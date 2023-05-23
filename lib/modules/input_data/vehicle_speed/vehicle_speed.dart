@@ -2,12 +2,15 @@ import '../input_data.dart';
 
 class VehicleSpeedData extends InputData {
   @override
-  void getQuery() {
-    // TODO: implement getQuery
-  }
-
+  String name = 'Vehicle Speed';
   @override
-  void sendQuery() {
-    // TODO: implement sendQuery
-  }
+  String description = 'Get the current speed of the vehicle';
+  @override
+  String unit = 'Km/h';
+  @override
+  Function formula = (int a) => a;
+  @override
+  String pid = '01 0D';
+  @override
+  int length = 1;
 }

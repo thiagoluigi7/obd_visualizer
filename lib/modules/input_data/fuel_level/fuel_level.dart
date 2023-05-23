@@ -2,12 +2,15 @@ import '../input_data.dart';
 
 class FuelLevelData extends InputData {
   @override
-  void getQuery() {
-    // TODO: implement getQuery
-  }
-
+  String name = 'Fuel Level';
   @override
-  void sendQuery() {
-    // TODO: implement sendQuery
-  }
+  String description = 'Get the fuel level in the tank';
+  @override
+  String unit = '%';
+  @override
+  Function formula = (int a) => (100 / 255) * a;
+  @override
+  String pid = '01 2F';
+  @override
+  int length = 1;
 }
