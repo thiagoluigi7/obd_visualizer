@@ -44,12 +44,12 @@ class _MyHomePageState extends State<MyHomePage> {
     if (await Permission.bluetoothScan.request().isGranted &&
         await Permission.bluetoothConnect.request().isGranted) {
       List<BluetoothDevice> list = await widget.bt.getPairedDevices();
-      setState(() => {_setList(list)});
+      _setList(list);
     }
   }
 
   void _setList(List<BluetoothDevice> list) {
-    devices = list;
+    setState(() => {devices = list});
   }
 
   void _getConnection(BluetoothDevice device) async {
@@ -81,7 +81,12 @@ class _MyHomePageState extends State<MyHomePage> {
             mainAxisAlignment: MainAxisAlignment.end,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Column(children: <Widget>[
+              Row(children: <Widget>[
+                IconButton(
+                    icon: const Icon(Icons.clear),
+                    tooltip: 'Clear devices list',
+                    padding: const EdgeInsets.all(50),
+                    onPressed: () => _setList([])),
                 IconButton(
                     icon: const Icon(Icons.bluetooth),
                     tooltip: 'Get paired bluetooth device',
