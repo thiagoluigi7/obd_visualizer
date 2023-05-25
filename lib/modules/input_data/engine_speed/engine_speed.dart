@@ -1,6 +1,7 @@
 import '../input_data.dart';
 
 class EngineSpeedData implements InputData {
+  EngineSpeedData();
   @override
   String name = 'Engine Speed';
   @override
@@ -13,4 +14,6 @@ class EngineSpeedData implements InputData {
   String pid = '01 0C';
   @override
   int length = 2;
+  @override
+  late Function value = (a, b) => '${formula(a, b)}$unit';
 }

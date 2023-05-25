@@ -1,6 +1,7 @@
 import '../input_data.dart';
 
 class FuelLevelData extends InputData {
+  FuelLevelData();
   @override
   String name = 'Fuel Level';
   @override
@@ -13,4 +14,6 @@ class FuelLevelData extends InputData {
   String pid = '01 2F';
   @override
   int length = 1;
+  @override
+  late Function value = (a) => '${formula(a)}$unit';
 }

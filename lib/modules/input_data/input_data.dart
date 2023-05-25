@@ -5,4 +5,5 @@ abstract class InputData {
   Function get formula;
   String get pid;
   int get length;
+  late Function value;
 }

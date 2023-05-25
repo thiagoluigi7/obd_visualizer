@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class TelaprincipalWidget extends StatefulWidget {
   @override
@@ -18,18 +17,18 @@ class _TelaprincipalWidgetState extends State<TelaprincipalWidget> {
           color: Color.fromRGBO(255, 255, 255, 1),
         ),
         child: Stack(children: <Widget>[
-          Positioned(
+          const Positioned(
               top: 50,
               left: 1126,
               child: SizedBox(
                   width: 79,
                   height: 77,
                   child: Stack(children: <Widget>[
-                    Positioned(
-                        top: 16,
-                        left: 24,
-                        child: SvgPicture.asset('assets/images/vector.svg',
-                            semanticsLabel: 'vector')),
+                    // Positioned(
+                    //     top: 16,
+                    //     left: 24,
+                    //     child: SvgPicture.asset('assets/images/vector.svg',
+                    //         semanticsLabel: 'vector')),
                   ]))),
           Positioned(
               top: 256,
@@ -66,13 +65,13 @@ class _TelaprincipalWidgetState extends State<TelaprincipalWidget> {
                               height: 1),
                         )),
                   ]))),
-          Positioned(
+          const Positioned(
               top: 256,
               left: 478,
               child: SizedBox(
                   width: 324,
                   height: 309,
-                  child: Stack(children: const <Widget>[
+                  child: Stack(children: <Widget>[
                     Positioned(
                         top: 117,
                         left: 81,
@@ -89,13 +88,13 @@ class _TelaprincipalWidgetState extends State<TelaprincipalWidget> {
                               height: 1),
                         )),
                   ]))),
-          Positioned(
+          const Positioned(
               top: 256,
               left: 75,
               child: SizedBox(
                   width: 324,
                   height: 309,
-                  child: Stack(children: const <Widget>[
+                  child: Stack(children: <Widget>[
                     Positioned(
                         top: 128,
                         left: 51,
