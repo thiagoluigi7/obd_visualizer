@@ -15,5 +15,5 @@ class FuelLevelData extends InputData {
   @override
   int length = 1;
   @override
-  late Function value = (a) => '${formula(a)}$unit';
+  late Function value = (int? a) => a == null? '- $unit' : '${formula(a)} $unit';
 }
