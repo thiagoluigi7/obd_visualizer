@@ -9,7 +9,7 @@ import '../modules/input_data/engine_speed/engine_speed.dart';
 import 'base.dart';
 
 class EngineSpeed extends StatefulWidget {
-  EngineSpeed({
+  const EngineSpeed({
     super.key,
     required this.bt
   });
@@ -24,14 +24,12 @@ class EngineSpeedState extends State<EngineSpeed> {
   late final Timer timer;
   EngineSpeedData data = EngineSpeedData();
   late String name = data.name;
-  late String parsedValue = data.value(a, b);
-  int a = 5;
-  int b = 10;
+  late String parsedValue = data.value();
 
   @override
   void initState() {
     super.initState();
-    timer = Timer.periodic(Duration(seconds: 1), (_) {
+    timer = Timer.periodic(const Duration(seconds: 1), (_) {
       getValue(widget.bt);
     });
   }
@@ -49,6 +47,7 @@ class EngineSpeedState extends State<EngineSpeed> {
     setState(() => parsedValue = data.value(a, b));
   }
 
+  @override
   Widget build(BuildContext context) {
     return BaseWidget(name: name, parsedValue: parsedValue);
   }
