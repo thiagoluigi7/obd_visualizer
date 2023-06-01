@@ -18,7 +18,7 @@ class FuelLevelWidget extends StatefulWidget {
 }
 
 class FuelLevelWidgetState extends State<FuelLevelWidget> {
-  late final Timer timer;
+  late Timer timer;
   FuelLevelData data = FuelLevelData();
   late String name = data.name;
   late String parsedValue = data.value(null);
@@ -27,7 +27,7 @@ class FuelLevelWidgetState extends State<FuelLevelWidget> {
   void initState() {
     super.initState();
     timer = Timer.periodic(const Duration(seconds: 1), (_) {
-      if (Globals.debugMode.value) {
+      if (Globals.debugMode.value && !Globals.disableFuelLevelMock.value) {
         getMockValue();
       } else {
         getValue(widget.bt);

@@ -27,7 +27,7 @@ class EngineSpeedWidgetState extends State<EngineSpeedWidget> {
   void initState() {
     super.initState();
     timer = Timer.periodic(const Duration(seconds: 1), (_) {
-      if (Globals.debugMode.value) {
+      if (Globals.debugMode.value && !Globals.disableEngineSpeedMock.value) {
         getMockValue();
       } else {
         getValue(widget.bt);

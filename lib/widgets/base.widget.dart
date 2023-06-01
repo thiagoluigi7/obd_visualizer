@@ -57,9 +57,9 @@ class BaseWidgetState extends State<BaseWidget> {
                             ? widget.sendData!()
                             : showSnackBar(context, 'Method not implemented');
                       },
-                      child: const Column(
+                      child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
+                        children: const [
                           Text('Send data'),
                         ],
                       ),

@@ -45,6 +45,20 @@ class _MyHomePageState extends State<MyHomePage> {
     Globals.debugMode.value = value;
   }
 
+  setMock(bool value, String field) {
+    switch (field) {
+      case 'FUEL':
+        Globals.disableFuelLevelMock.value = value;
+        break;
+      case 'SPEED':
+        Globals.disableVehicleSpeedMock.value = value;
+        break;
+      case 'RPM':
+        Globals.disableEngineSpeedMock.value = value;
+        break;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,7 +71,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Row(children: <Widget>[
-                    const Text('Debug'),
+                    const Text('Debug Mode'),
                     ValueListenableBuilder<bool>(
                         valueListenable: Globals.debugMode,
                         builder: (context, value, Widget? child) {
@@ -88,9 +102,71 @@ class _MyHomePageState extends State<MyHomePage> {
                 children: [
                   VehicleSpeedWidget(bt: widget.bt),
                   EngineSpeedWidget(bt: widget.bt),
-                  FuelLevelWidget(bt: widget.bt),
+                  ValueListenableBuilder<bool>(
+                    valueListenable: Globals.disableFuelLevelMock,
+                    builder: (context, value, Widget? child) {
+                      return FuelLevelWidget(bt: widget.bt);
+                    },
+                  )
                 ]),
-            const SizedBox(height: 40),
+            const SizedBox(height: 10),
+            // TODO: Add switch to enable and disable data retrieval periodically
+            ValueListenableBuilder<bool>(
+                valueListenable: Globals.debugMode,
+                builder: (context, value, Widget? child) {
+                  return Visibility(
+                    visible: value,
+                    child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child:
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text('Speed Mock'),
+                            ValueListenableBuilder<bool>(
+                                valueListenable: Globals.disableVehicleSpeedMock,
+                                builder: (context, value, Widget? child) {
+                                  return Switch(
+                                    value: value,
+                                    onChanged: (bool newValue) {
+                                      setMock(newValue, 'SPEED');
+                                    },
+                                  );
+                                }
+                            ),
+                            const SizedBox(width: 90),
+                            const Text('RPM Mock'),
+                            ValueListenableBuilder<bool>(
+                                valueListenable: Globals.disableEngineSpeedMock,
+                                builder: (context, value, Widget? child) {
+                                  return Switch(
+                                    value: value,
+                                    onChanged: (bool newValue) {
+                                      setMock(newValue, 'RPM');
+                                    },
+                                  );
+                                }
+                            ),
+                            const SizedBox(width: 90),
+                            const Text('Fuel Mock'),
+                            ValueListenableBuilder<bool>(
+                                valueListenable: Globals.disableFuelLevelMock,
+                                builder: (context, value, Widget? child) {
+                                  return Switch(
+                                    value: value,
+                                    onChanged: (bool newValue) {
+                                      setMock(newValue, 'FUEL');
+                                    },
+                                  );
+                                }
+                            ),
+                          ],
+                        )
+                    ),
+                  );
+                }),
+            const SizedBox(height: 10),
             ValueListenableBuilder<bool>(
                 valueListenable: Globals.debugMode,
                 builder: (context, value, Widget? child) {
@@ -116,33 +192,6 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                   );
                 }),
-            // TODO: Add switches to disable mock for each info widget
-            // TODO: Add switch to enable and disable data retrieval periodically
-            ValueListenableBuilder<bool>(
-                valueListenable: Globals.debugMode,
-                builder: (context, value, Widget? child) {
-                  return Visibility(
-                    visible: value,
-                    child: SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child:
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Text('Debug mode: ${Globals.debugMode.value.toString()}'),
-                            const SizedBox(width: 10),
-                            Text('Connected: ${widget.bt.connection?.isConnected.toString()}'),
-                            const SizedBox(width: 10),
-                            // TODO: Add pid being sent by widget
-                            Text('AAAAAAAAAAAAAA'),
-                            // TODO: Add input sink and output sink
-                            // Text('Connected: ${widget.bt.connection?.isConnected.toString()}')
-                          ],
-                        )
-                    ),
-                  );
-                })
           ],
         ),
       ),
