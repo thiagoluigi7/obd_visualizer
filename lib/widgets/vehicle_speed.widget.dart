@@ -1,4 +1,3 @@
-
 import 'dart:async';
 import 'dart:math';
 
@@ -6,31 +5,33 @@ import 'package:flutter/cupertino.dart';
 
 import '../modules/connection/bluetooth_connection/bluetooth_connection.dart';
 import '../modules/input_data/vehicle_speed/vehicle_speed.dart';
-import 'base.dart';
+import '../utils/globals.dart';
+import 'base.widget.dart';
 
-class VehicleSpeed extends StatefulWidget {
-  const VehicleSpeed({
-    super.key,
-    required this.bt
-  });
+class VehicleSpeedWidget extends StatefulWidget {
+  const VehicleSpeedWidget({super.key, required this.bt});
 
   final Bluetooth bt;
 
   @override
-  VehicleSpeedState createState() => VehicleSpeedState();
+  VehicleSpeedWidgetState createState() => VehicleSpeedWidgetState();
 }
 
-class VehicleSpeedState extends State<VehicleSpeed> {
+class VehicleSpeedWidgetState extends State<VehicleSpeedWidget> {
   late final Timer timer;
   VehicleSpeedData data = VehicleSpeedData();
   late String name = data.name;
-  late String parsedValue = data.value();
+  late String parsedValue = data.value(null);
 
   @override
   void initState() {
     super.initState();
     timer = Timer.periodic(const Duration(seconds: 1), (_) {
-      getValue(widget.bt);
+      if (Globals.debugMode.value) {
+        getMockValue();
+      } else {
+        getValue(widget.bt);
+      }
     });
   }
 
@@ -40,10 +41,20 @@ class VehicleSpeedState extends State<VehicleSpeed> {
     timer.cancel();
   }
 
-  getValue(bt) {
+  setParsedValue(int? a) {
+    setState(() => parsedValue = data.value(a));
+  }
+
+  getMockValue() {
     Random random = Random();
     int a = random.nextInt(255);
-    setState(() => parsedValue = data.value(a));
+    setParsedValue(a);
+  }
+
+  getValue(bt) {
+    if (bt.connection == null || !bt.connection?.isConnected) {
+      setParsedValue(null);
+    }
   }
 
   @override

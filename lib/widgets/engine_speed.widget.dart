@@ -1,4 +1,3 @@
-
 import 'dart:async';
 import 'dart:math';
 
@@ -6,31 +5,33 @@ import 'package:flutter/cupertino.dart';
 
 import '../modules/connection/bluetooth_connection/bluetooth_connection.dart';
 import '../modules/input_data/engine_speed/engine_speed.dart';
-import 'base.dart';
+import '../utils/globals.dart';
+import 'base.widget.dart';
 
-class EngineSpeed extends StatefulWidget {
-  const EngineSpeed({
-    super.key,
-    required this.bt
-  });
+class EngineSpeedWidget extends StatefulWidget {
+  const EngineSpeedWidget({super.key, required this.bt});
 
   final Bluetooth bt;
 
   @override
-  EngineSpeedState createState() => EngineSpeedState();
+  EngineSpeedWidgetState createState() => EngineSpeedWidgetState();
 }
 
-class EngineSpeedState extends State<EngineSpeed> {
+class EngineSpeedWidgetState extends State<EngineSpeedWidget> {
   late final Timer timer;
   EngineSpeedData data = EngineSpeedData();
   late String name = data.name;
-  late String parsedValue = data.value();
+  late String parsedValue = data.value(null, null);
 
   @override
   void initState() {
     super.initState();
     timer = Timer.periodic(const Duration(seconds: 1), (_) {
-      getValue(widget.bt);
+      if (Globals.debugMode.value) {
+        getMockValue();
+      } else {
+        getValue(widget.bt);
+      }
     });
   }
 
@@ -40,11 +41,21 @@ class EngineSpeedState extends State<EngineSpeed> {
     timer.cancel();
   }
 
-  getValue(bt) {
+  setParsedValue(int? a, int? b) {
+    setState(() => parsedValue = data.value(a, b));
+  }
+
+  getMockValue() {
     Random random = Random();
     int a = random.nextInt(100);
     int b = random.nextInt(100);
-    setState(() => parsedValue = data.value(a, b));
+    setParsedValue(a, b);
+  }
+
+  getValue(bt) {
+    if (bt.connection == null || !bt.connection?.isConnected) {
+      setParsedValue(null, null);
+    }
   }
 
   @override
