@@ -4,14 +4,10 @@ import 'package:permission_handler/permission_handler.dart';
 
 import '../modules/connection/bluetooth_connection/bluetooth_connection.dart';
 import '../utils/utils.dart';
-import '../widgets/device_list.dart';
+import '../widgets/device_list.widget.dart';
 
 class MyConfigPage extends StatefulWidget {
-  const MyConfigPage({
-    super.key,
-    required this.title,
-    required this.bt
-  });
+  const MyConfigPage({super.key, required this.title, required this.bt});
 
   final String title;
   final Bluetooth bt;
@@ -55,32 +51,30 @@ class _MyConfigPageState extends State<MyConfigPage> {
     return Scaffold(
       body: Center(
           child: Column(mainAxisSize: MainAxisSize.max, children: <Widget>[
-            Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Row(children: <Widget>[
-                    IconButton(
-                        icon: const Icon(Icons.clear),
-                        tooltip: 'Clear devices list',
-                        padding: const EdgeInsets.all(50),
-                        onPressed: () => _setList([])),
-                    IconButton(
-                      icon: const Icon(Icons.bluetooth),
-                      tooltip: 'Get paired bluetooth device',
-                      padding: const EdgeInsets.all(50),
-                      onPressed: _getDevices),
-                    IconButton(
-                        icon: const Icon(Icons.home),
-                        tooltip: 'Go back home',
-                        padding: const EdgeInsets.all(50),
-                        onPressed: () => {
-                          Navigator.pop(context)
-                        }),
-                  ]),
-                ]),
-            DeviceList(devices: devices, getConnection: _getConnection)
-          ])),
+        Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Row(children: <Widget>[
+                IconButton(
+                    icon: const Icon(Icons.clear),
+                    tooltip: 'Clear devices list',
+                    padding: const EdgeInsets.all(50),
+                    onPressed: () => _setList([])),
+                IconButton(
+                    icon: const Icon(Icons.bluetooth),
+                    tooltip: 'Get paired bluetooth device',
+                    padding: const EdgeInsets.all(50),
+                    onPressed: _getDevices),
+                IconButton(
+                    icon: const Icon(Icons.home),
+                    tooltip: 'Go back home',
+                    padding: const EdgeInsets.all(50),
+                    onPressed: () => {Navigator.pop(context)}),
+              ]),
+            ]),
+        DeviceList(devices: devices, getConnection: _getConnection)
+      ])),
     );
   }
 }
