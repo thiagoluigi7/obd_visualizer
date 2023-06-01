@@ -15,5 +15,6 @@ class EngineSpeedData implements InputData {
   @override
   int length = 2;
   @override
-  late Function value = (int? a, int? b) => a == null || b == null? '- $unit' : '${formula(a, b)} $unit';
+  late Function value = (int? a, int? b) =>
+      (a == null || b == null) ? '- $unit' : '${formula(a, b)} $unit';
 }
