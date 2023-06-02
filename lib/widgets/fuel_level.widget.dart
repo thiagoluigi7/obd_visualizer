@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:math';
+import 'package:flutter/foundation.dart';
 
 import 'package:flutter/cupertino.dart';
 
@@ -27,10 +28,12 @@ class FuelLevelWidgetState extends State<FuelLevelWidget> {
   void initState() {
     super.initState();
     timer = Timer.periodic(const Duration(seconds: 1), (_) {
-      if (Globals.debugMode.value && !Globals.disableFuelLevelMock.value) {
+      if (Globals.debugMode.value && Globals.enableFuelLevelMock.value) {
         getMockValue();
-      } else {
+      } else if (!Globals.debugMode.value || (Globals.debugMode.value && Globals.enableFuelLevelAuto.value)) {
         getValue(widget.bt);
+      } else {
+        setParsedValue(null);
       }
     });
   }
@@ -60,6 +63,7 @@ class FuelLevelWidgetState extends State<FuelLevelWidget> {
   }
 
   getValue(bt) async {
+    debugPrint('Getting auto fuel level data');
     if (bt.connection == null || !bt.connection?.isConnected) {
       setParsedValue(null);
     }

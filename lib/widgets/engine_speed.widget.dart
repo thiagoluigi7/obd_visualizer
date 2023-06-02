@@ -27,10 +27,12 @@ class EngineSpeedWidgetState extends State<EngineSpeedWidget> {
   void initState() {
     super.initState();
     timer = Timer.periodic(const Duration(seconds: 1), (_) {
-      if (Globals.debugMode.value && !Globals.disableEngineSpeedMock.value) {
+      if (Globals.debugMode.value && Globals.enableEngineSpeedMock.value) {
         getMockValue();
-      } else {
+      } else if (!Globals.debugMode.value || (Globals.debugMode.value && Globals.enableEngineSpeedAuto.value)) {
         getValue(widget.bt);
+      } else {
+        setParsedValue(null, null);
       }
     });
   }
@@ -53,6 +55,7 @@ class EngineSpeedWidgetState extends State<EngineSpeedWidget> {
   }
 
   getValue(bt) {
+    debugPrint('Getting auto engine speed data');
     if (bt.connection == null || !bt.connection?.isConnected) {
       setParsedValue(null, null);
     }
