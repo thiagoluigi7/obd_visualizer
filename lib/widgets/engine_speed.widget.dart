@@ -30,7 +30,7 @@ class EngineSpeedWidgetState extends State<EngineSpeedWidget> {
       if (Globals.debugMode.value && Globals.enableEngineSpeedMock.value) {
         getMockValue();
       } else if (!Globals.debugMode.value || (Globals.debugMode.value && Globals.enableEngineSpeedAuto.value)) {
-        getValue(widget.bt);
+        getValue();
       } else {
         setParsedValue(null, null);
       }
@@ -54,15 +54,32 @@ class EngineSpeedWidgetState extends State<EngineSpeedWidget> {
     setParsedValue(a, b);
   }
 
-  getValue(bt) {
+  sendData() {
+    widget.bt.sendData(data.pid);
+  }
+
+  receiveData() {
+    return widget.bt.receiveData();
+  }
+
+  getValue() async {
     debugPrint('Getting auto engine speed data');
-    if (bt.connection == null || !bt.connection?.isConnected) {
+    if (widget.bt.connection == null || !widget.bt.connection!.isConnected) {
       setParsedValue(null, null);
+      return;
     }
+
+    await sendData();
+    String receivedData = receiveData();
+    var splitData = receivedData.split(' ');
+    int firstIntValue = int.parse(splitData[2], radix: 16);
+    int secondIntValue = int.parse(splitData[3], radix: 16);
+    debugPrint('Getting auto engine speed data');
+    // setParsedValue(firstIntValue, secondIntValue);
   }
 
   @override
   Widget build(BuildContext context) {
-    return BaseWidget(name: name, parsedValue: parsedValue);
+    return BaseWidget(name: name, parsedValue: parsedValue, sendData: getValue);
   }
 }

@@ -31,7 +31,7 @@ class FuelLevelWidgetState extends State<FuelLevelWidget> {
       if (Globals.debugMode.value && Globals.enableFuelLevelMock.value) {
         getMockValue();
       } else if (!Globals.debugMode.value || (Globals.debugMode.value && Globals.enableFuelLevelAuto.value)) {
-        getValue(widget.bt);
+        getValue();
       } else {
         setParsedValue(null);
       }
@@ -62,22 +62,24 @@ class FuelLevelWidgetState extends State<FuelLevelWidget> {
     return widget.bt.receiveData();
   }
 
-  getValue(bt) async {
+  getValue() async {
     debugPrint('Getting auto fuel level data');
-    if (bt.connection == null || !bt.connection?.isConnected) {
+    if (widget.bt.connection == null || !widget.bt.connection!.isConnected) {
+      debugPrint('No connection or connection is not connected');
       setParsedValue(null);
+      return;
     }
 
-    if (widget.bt.connection != null && widget.bt.connection!.isConnected) {
-      await sendData();
-      String receivedData = receiveData();
-      // setParsedValue(receivedData);
-    }
-
+    await sendData();
+    String receivedData = receiveData();
+    var splitData = receivedData.split(' ');
+    int intValue = int.parse(splitData[2], radix: 16);
+    debugPrint('Getting auto fuel level data');
+    // setParsedValue(intValue);
   }
 
   @override
   Widget build(BuildContext context) {
-    return BaseWidget(name: name, parsedValue: parsedValue, sendData: sendData);
+    return BaseWidget(name: name, parsedValue: parsedValue, sendData: getValue);
   }
 }

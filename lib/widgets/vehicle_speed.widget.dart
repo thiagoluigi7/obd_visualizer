@@ -30,7 +30,7 @@ class VehicleSpeedWidgetState extends State<VehicleSpeedWidget> {
       if (Globals.debugMode.value && Globals.enableVehicleSpeedMock.value) {
         getMockValue();
       } else if (!Globals.debugMode.value || (Globals.debugMode.value && Globals.enableVehicleSpeedAuto.value)){
-        getValue(widget.bt);
+        getValue();
       } else {
         setParsedValue(null);
       }
@@ -53,15 +53,31 @@ class VehicleSpeedWidgetState extends State<VehicleSpeedWidget> {
     setParsedValue(a);
   }
 
-  getValue(bt) {
+  sendData() {
+    widget.bt.sendData(data.pid);
+  }
+
+  receiveData() {
+    return widget.bt.receiveData();
+  }
+
+  getValue() async {
     debugPrint('Getting auto vehicle speed data');
-    if (bt.connection == null || !bt.connection?.isConnected) {
+    if (widget.bt.connection == null || !widget.bt.connection!.isConnected) {
       setParsedValue(null);
+      return;
     }
+
+    await sendData();
+    String receivedData = receiveData();
+    var splitData = receivedData.split(' ');
+    int intValue = int.parse(splitData[2], radix: 16);
+    debugPrint('Getting auto vehicle speed data');
+    // setParsedValue(intValue);
   }
 
   @override
   Widget build(BuildContext context) {
-    return BaseWidget(name: name, parsedValue: parsedValue);
+    return BaseWidget(name: name, parsedValue: parsedValue, sendData: getValue);
   }
 }
