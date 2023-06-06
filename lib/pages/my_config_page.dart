@@ -34,8 +34,18 @@ class _MyConfigPageState extends State<MyConfigPage> {
   void _getConnection(BluetoothDevice device) async {
     try {
       await widget.bt.connectToDevice(device);
+      debugPrint('Connecting...');
       showSnackBar(context, 'Conectado!');
+      debugPrint('Connected!');
+      await widget.bt.sendData('AT Z');
+      debugPrint('Resetting the ELM');
+      await widget.bt.sendData('AT E0');
+      debugPrint('Disabling the echo');
+      await widget.bt.sendData('AT SP 0');
+      debugPrint('Discovering the protocol...');
+      debugPrint('ELM: ${widget.bt.receiveData()}');
     } catch (e) {
+      debugPrint('Error: $e');
       showSnackBar(context, 'Erro na conexão');
     }
   }
